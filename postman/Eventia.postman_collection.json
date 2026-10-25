@@ -1,0 +1,1013 @@
+{
+  "info": {
+    "name": "Eventia - Seguridad y control de acceso",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api"
+    },
+    {
+      "key": "demoPassword",
+      "value": "Demo12345"
+    },
+    {
+      "key": "tokenLaura",
+      "value": ""
+    },
+    {
+      "key": "tokenPedro",
+      "value": ""
+    },
+    {
+      "key": "tokenCarlos",
+      "value": ""
+    },
+    {
+      "key": "tokenMaria",
+      "value": ""
+    },
+    {
+      "key": "eventoLaura",
+      "value": ""
+    },
+    {
+      "key": "eventoPedro",
+      "value": ""
+    },
+    {
+      "key": "inscripcionCarlos",
+      "value": ""
+    },
+    {
+      "key": "tokenVencido",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "0. Preparación (login de usuarios de prueba)",
+      "item": [
+        {
+          "name": "Login Laura (organizadora)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('tokenLaura', pm.response.json().accessToken);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"correo\":\"laura@eventia.test\",\"password\":\"{{demoPassword}}\"}"
+            }
+          }
+        },
+        {
+          "name": "Login Pedro (organizador)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('tokenPedro', pm.response.json().accessToken);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"correo\":\"pedro@eventia.test\",\"password\":\"{{demoPassword}}\"}"
+            }
+          }
+        },
+        {
+          "name": "Login Carlos (usuario)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('tokenCarlos', pm.response.json().accessToken);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"correo\":\"carlos@eventia.test\",\"password\":\"{{demoPassword}}\"}"
+            }
+          }
+        },
+        {
+          "name": "Login María (usuaria)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('tokenMaria', pm.response.json().accessToken);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"correo\":\"maria@eventia.test\",\"password\":\"{{demoPassword}}\"}"
+            }
+          }
+        },
+        {
+          "name": "Laura crea un evento",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('201 Created', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('eventoLaura', pm.response.json().id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{tokenLaura}}"
+              }
+            ],
+            "url": "{{baseUrl}}/eventos",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"titulo\":\"Charla de seguridad web\",\"lugar\":\"Aula 12\",\"fecha\":\"2027-03-10T15:00:00.000Z\",\"cupo\":30,\"precio\":0}"
+            }
+          }
+        },
+        {
+          "name": "Pedro crea un evento",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('201 Created', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('eventoPedro', pm.response.json().id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{tokenPedro}}"
+              }
+            ],
+            "url": "{{baseUrl}}/eventos",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"titulo\":\"Torneo de ajedrez\",\"lugar\":\"Biblioteca\",\"fecha\":\"2027-04-02T15:00:00.000Z\",\"cupo\":20,\"precio\":10}"
+            }
+          }
+        },
+        {
+          "name": "Carlos se inscribe en el evento de Pedro",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('201 Created', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('inscripcionCarlos', pm.response.json().id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{tokenCarlos}}"
+              }
+            ],
+            "url": "{{baseUrl}}/eventos/{{eventoPedro}}/inscripciones",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"cantidad\":2}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "1. Pruebas de autenticación y autorización (Actividad 24)",
+      "item": [
+        {
+          "name": "P1 - Ruta privada sin autenticación → 401",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('401 Unauthorized', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/inscripciones/mias"
+          }
+        },
+        {
+          "name": "P2 - Ruta privada con autenticación válida → 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Devuelve un arreglo', () => pm.expect(pm.response.json()).to.be.an('array'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{tokenCarlos}}"
+              }
+            ],
+            "url": "{{baseUrl}}/inscripciones/mias"
+          }
+        },
+        {
+          "name": "P3 - Organizador modifica su propio evento → 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "pm.test('Precio actualizado', () => pm.expect(pm.response.json().precio).to.eql(15));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{tokenLaura}}"
+              }
+            ],
+            "url": "{{baseUrl}}/eventos/{{eventoLaura}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"precio\":15}"
+            }
+          }
+        },
+        {
+          "name": "P4 - Organizador intenta modificar evento ajeno → 403",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('403 Forbidden', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{tokenLaura}}"
+              }
+            ],
+            "url": "{{baseUrl}}/eventos/{{eventoPedro}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"precio\":0}"
+            }
+          }
+        },
+        {
+          "name": "P5 - Usuario consulta inscripción privada de otro → 403",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('403 Forbidden', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{tokenMaria}}"
+              }
+            ],
+            "url": "{{baseUrl}}/inscripciones/{{inscripcionCarlos}}"
+          }
+        },
+        {
+          "name": "P6a - Token inválido → 401",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('401 Unauthorized', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjF9.firma-falsa"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/perfil"
+          }
+        },
+        {
+          "name": "P6b - Token vencido → 401 (sesión expirada)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('401 Unauthorized', () => pm.response.to.have.status(401));",
+                  "pm.test('Indica sesión expirada', () => pm.expect(pm.response.json().mensaje).to.include('expirado'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{tokenVencido}}"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/perfil",
+            "description": "Genere tokenVencido con: npm run token:vencido (en /backend) y péguelo en la variable de colección tokenVencido."
+          }
+        },
+        {
+          "name": "P6c - Token revocado tras logout → 401",
+          "item": [
+            {
+              "name": "Logout de María",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{tokenMaria}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/auth/logout"
+              }
+            },
+            {
+              "name": "Reutilizar token de María → 401",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test('401 Unauthorized', () => pm.response.to.have.status(401));"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{tokenMaria}}"
+                  }
+                ],
+                "url": "{{baseUrl}}/auth/perfil"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2. Controles de la auditoría de APIs (Actividad 22 y 23)",
+      "item": [
+        {
+          "name": "API 2 - Registro con rol=administrador → 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('400 Bad Request', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/usuarios",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nombre\":\"Ana\",\"correo\":\"ana{{$timestamp}}@email.com\",\"password\":\"Segura123\",\"rol\":\"administrador\"}"
+            }
+          }
+        },
+        {
+          "name": "API 2 - Registro válido → 201 con rol usuario",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('201 Created', () => pm.response.to.have.status(201));",
+                  "pm.test('Rol asignado por el servidor', () => pm.expect(pm.response.json().rol).to.eql('usuario'));",
+                  "pm.test('No expone passwordHash', () => pm.expect(pm.response.json()).to.not.have.property('passwordHash'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/usuarios",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"nombre\":\"Ana\",\"correo\":\"ana{{$timestamp}}@email.com\",\"password\":\"Segura123\"}"
+            }
+          }
+        },
+        {
+          "name": "API 3 - Evento con cupo y precio negativos → 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('400 Bad Request', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{tokenLaura}}"
+              }
+            ],
+            "url": "{{baseUrl}}/eventos",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"titulo\":\"Concierto universitario\",\"lugar\":\"Auditorio\",\"fecha\":\"2027-05-01T00:00:00.000Z\",\"cupo\":-50,\"precio\":-100}"
+            }
+          }
+        },
+        {
+          "name": "API 3 - Usuario sin rol organizador crea evento → 403",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('403 Forbidden', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{tokenCarlos}}"
+              }
+            ],
+            "url": "{{baseUrl}}/eventos",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"titulo\":\"Concierto\",\"lugar\":\"Auditorio\",\"fecha\":\"2027-05-01T00:00:00.000Z\",\"cupo\":150,\"precio\":75}"
+            }
+          }
+        },
+        {
+          "name": "API 5 - Inscripción con cantidad 500 → 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('400 Bad Request', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{tokenCarlos}}"
+              }
+            ],
+            "url": "{{baseUrl}}/eventos/{{eventoLaura}}/inscripciones",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"cantidad\":500}"
+            }
+          }
+        },
+        {
+          "name": "API 5 - Inscripción con cantidad 0 → 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('400 Bad Request', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{tokenCarlos}}"
+              }
+            ],
+            "url": "{{baseUrl}}/eventos/{{eventoLaura}}/inscripciones",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"cantidad\":0}"
+            }
+          }
+        },
+        {
+          "name": "API 5 - Exceder máximo de plazas por usuario → 422",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('422 Unprocessable Entity', () => pm.response.to.have.status(422));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{tokenCarlos}}"
+              }
+            ],
+            "url": "{{baseUrl}}/eventos/{{eventoPedro}}/inscripciones",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"cantidad\":4}"
+            }
+          }
+        },
+        {
+          "name": "API 6 - Consulta de usuario ajeno → 403",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('403 Forbidden', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{tokenLaura}}"
+              }
+            ],
+            "url": "{{baseUrl}}/usuarios/4"
+          }
+        },
+        {
+          "name": "API 6 - Perfil propio sin campos sensibles → 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));",
+                  "const u = pm.response.json();",
+                  "pm.test('Sin passwordHash ni teléfono', () => { pm.expect(u).to.not.have.property('passwordHash'); pm.expect(u).to.not.have.property('telefono'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{tokenCarlos}}"
+              }
+            ],
+            "url": "{{baseUrl}}/usuarios/me"
+          }
+        },
+        {
+          "name": "API 7 - Correo inexistente: mensaje genérico → 401",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('401', () => pm.response.to.have.status(401));",
+                  "pm.test('Mensaje genérico', () => pm.expect(pm.response.json().mensaje).to.eql('Credenciales inválidas'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"correo\":\"noexiste@eventia.test\",\"password\":\"x\"}"
+            }
+          }
+        },
+        {
+          "name": "API 7 - Contraseña incorrecta: mismo mensaje → 401",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('401', () => pm.response.to.have.status(401));",
+                  "pm.test('Mensaje genérico', () => pm.expect(pm.response.json().mensaje).to.eql('Credenciales inválidas'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"correo\":\"carlos@eventia.test\",\"password\":\"incorrecta\"}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Situación D - Evento cerrado no admite cambios",
+      "item": [
+        {
+          "name": "Laura cierra su evento → 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{tokenLaura}}"
+              }
+            ],
+            "url": "{{baseUrl}}/eventos/{{eventoLaura}}/cerrar"
+          }
+        },
+        {
+          "name": "Laura intenta modificar el evento cerrado → 409",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('409 Conflict', () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{tokenLaura}}"
+              }
+            ],
+            "url": "{{baseUrl}}/eventos/{{eventoLaura}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"precio\":20}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. API 7 - Límite de intentos de inicio de sesión (Pedro ya usó 1 intento en la preparación)",
+      "item": [
+        {
+          "name": "Intento fallido 1 → 401",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('401', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"correo\":\"pedro@eventia.test\",\"password\":\"mala1\"}"
+            }
+          }
+        },
+        {
+          "name": "Intento fallido 2 → 401",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('401', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"correo\":\"pedro@eventia.test\",\"password\":\"mala2\"}"
+            }
+          }
+        },
+        {
+          "name": "Intento fallido 3 → 401",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('401', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"correo\":\"pedro@eventia.test\",\"password\":\"mala3\"}"
+            }
+          }
+        },
+        {
+          "name": "Intento fallido 4 → 401",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('401', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"correo\":\"pedro@eventia.test\",\"password\":\"mala4\"}"
+            }
+          }
+        },
+        {
+          "name": "6º intento en menos de 1 minuto → 429",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('429 Too Many Requests', () => pm.response.to.have.status(429));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"correo\":\"pedro@eventia.test\",\"password\":\"mala5\"}"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
